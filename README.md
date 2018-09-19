@@ -29,12 +29,24 @@ make
 ## Binding a new function in c
 
 ````c
-int test(Gaia * gaia) {
-    printf("test function");
-    return 0;
+int csub(Gaia::Script * script)
+{
+	int b = script->toInt();
+	int a = script->toInt();
+	script->pushInt(a - b);
+	return 1;
 }
-gaia.pushLocalFunction("test", test);
+
+script.pushLocalFunction("csub", csub);
 ````
+
+````js
+print(csub(5,2));   //3
+````
+
+using `script->to[Type]` to get the params, right to left.
+`return 1` means this function has a return value. 
+u need put the return value on the stack first. `script->pushInt(a - b);`
 
 c function return 0 or 1
 

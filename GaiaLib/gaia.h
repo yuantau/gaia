@@ -44,6 +44,7 @@ class Script
     void pushInt(int val);
     void pushNumber(float val);
     void pushString(char *str);
+	BOOL pushLocalFunction(char *name, pLocalFn fn);
     GaiaValue popValue();
 
   private:

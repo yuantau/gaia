@@ -1,10 +1,19 @@
 #include "gaia.h"
 #include <stdio.h>
 
+int csub(Gaia::Script * script)
+{
+	int b = script->toInt();
+	int a = script->toInt();
+	script->pushInt(a - b);
+	return 1;
+}
+
 int main()
 {
 
     Gaia::Script script;
+	script.pushLocalFunction("csub", csub);
 
     try
     {
@@ -12,14 +21,7 @@ int main()
 		script.pushInt(2);
 		script.pushInt(10);
 		script.call("add");
-		printf("%d", script.toInt());
-        // script.printICode("d:\\2.txt");
-
-       /*  script.getGlobal("name");
-         printf("%s\n", script.toString());
-		 script.getGlobal("tick");
-		 printf("%d\n", script.toInt());*/
-      
+		printf("%d", script.toInt());      
     }
     catch (int i)
     {

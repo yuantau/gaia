@@ -197,6 +197,11 @@ void Script::pushString(char *str)
     runtime_.pushString(str);
 }
 
+BOOL Script::pushLocalFunction(char *name, pLocalFn fn)
+{
+	return runtime_.pushLocalFunction(name, fn);
+}
+
 void Script::getType(char *buf)
 {
     GaiaValue val = runtime_.pop();
