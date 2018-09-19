@@ -111,7 +111,6 @@ void Script::execFile(const char *filename)
 void Script::execString(const char *str)
 {
     compile((char *)str);
-    runtime_.begin(parse_.getByteCode(), this);
 }
 
 void Script::compile(char *pSource)
@@ -122,7 +121,7 @@ void Script::compile(char *pSource)
 
     parse_.parse(&runtime_);
 
-	printICode("d:/2.txt");
+	//printICode("icode.txt");
 
     runtime_.begin(parse_.getByteCode(), this);
 }

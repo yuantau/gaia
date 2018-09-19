@@ -2,6 +2,10 @@
 
 using namespace Gaia;
 
+Instr::Instr(void){
+	memset(this->opList, 0, sizeof(GaiaValue) * 3);
+};
+
 Runtime::Runtime(void) : stackSize_(1024), pStack_(NULL), pInstrs_(NULL)
 {
     stackTop_ = stackLocal_ = 0;
@@ -24,10 +28,14 @@ void Runtime::begin(Stream *pCode, Script *pScript)
     if (pStack_ != NULL)
         delete[] pStack_;
     pStack_ = new GaiaValue[stackSize_];
+	for (int i = 0; i < stackSize_; i++)
+	{
+		pStack_[i].type = GAIA_OP_NULL;
+	} 
 
     gaiaStringTable_.clear();
 
-    eax.type = ebx.type = GAIA_OP_NULL;
+    eax.type = ebx.type = -2;
 
     pCode->setPosition(8);
 
@@ -75,6 +83,7 @@ void Runtime::begin(Stream *pCode, Script *pScript)
 
     instrSize_ = pCode->readInt();
     pInstrs_ = new Instr[instrSize_]; //指令分配空间
+	
 
     for (int i = 0; i < instrSize_; i++)
     {
@@ -86,6 +95,7 @@ void Runtime::begin(Stream *pCode, Script *pScript)
 
         for (int j = 0; j < opCount; j++)
         {
+			
             int opType = pCode->readInt();
             pInstrs_[i].opList[j].type = opType;
             switch (opType)
@@ -145,6 +155,8 @@ void Runtime::begin(Stream *pCode, Script *pScript)
                 pInstrs_[i].opList[j].size = localSize;
                 break;
             }
+			default:
+				pInstrs_[i].opList[j].type = -1;
             }
         }
     }
@@ -174,7 +186,7 @@ void Runtime::GC()
         }
         pNode = pNode->getNext();
     }
-    printf("%d\n", gaiaStringTable_.getLength());
+
 }
 
 GaiaValue Runtime::pop()
@@ -199,25 +211,14 @@ void Runtime::run()
     while (TRUE)
     {
 
-        //printf("%d\n", retFound);
+
         if (retFound == 0)
             break;
 
         currIp = ip_;
         pCurrent = &pInstrs_[ip_];
 
-        /*	
-		static char Commands[200];
-		cin.getline(Commands, 200);
-		if(strcmp(Commands, "t") == 0)
-		{
-			printf("StackTop: %s\n", getValueType(pStack_[stackTop_-1].type));
-		}
-		else if(strcmp(Commands, "d") == 0)
-		{
-			printf("a:%s\n", getValueType(pStack_[0].type));
-		}
-		printf("IP:%d %s stacktop:%d %d\n", ip_, getMnemonics(pCurrent->opCode), stackTop_, retFound);*/
+   
         switch (pCurrent->opCode)
         {
         case INSTR_NEW_OBJ:
@@ -232,15 +233,15 @@ void Runtime::run()
         }
         case INSTR_GET_FIELD:
         {
-            GaiaValue key = pop();
+            /*GaiaValue key = pop();
             GaiaValue obj = pop();
             printf("%d", obj.pObj->ref);
-
+*/
             break;
         }
         case INSTR_SET_FIELD:
         {
-            GaiaValue val = pop();
+          /*  GaiaValue val = pop();
             GaiaValue key = pop();
             GaiaValue dest = pop();
 
@@ -249,7 +250,7 @@ void Runtime::run()
 
             printf("%s ", getValueType(val.type));
             printf("%s ", getValueType(key.type));
-            printf("%s ", getValueType(dest.type));
+            printf("%s ", getValueType(dest.type));*/
             break;
         }
         case INSTR_MOD:
@@ -405,6 +406,8 @@ void Runtime::run()
         case INSTR_MOV:
         {
             GaiaValue *dest = getOpValuePtr(0);
+			
+			
             if (dest->type == GAIA_OP_STRING)
                 ((GaiaString *)dest->pObj)->ref--;
 
@@ -687,6 +690,7 @@ GaiaValue Runtime::getOpValue(int index)
 GaiaValue *Runtime::getOpValuePtr(int index)
 {
     int type = pInstrs_[ip_].opList[index].type;
+
     switch (type)
     {
     case GAIA_OP_EAX:

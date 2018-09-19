@@ -11,6 +11,7 @@ namespace Gaia
 class Instr
 {
   public:
+	Instr(void);
     int opCode;
     int opCount;
     GaiaValue opList[3];
