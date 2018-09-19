@@ -2,11 +2,11 @@
 
 add_executable(Gaia 
 GaiaApplication.cc
-script.cpp
+gaia.cpp
 gaiaobject.cpp
 gaiastring.cpp
 gaiavalue.cpp
-global.cpp
+def.cpp
 ICode.cpp
 lexer.cpp
 list.cpp
@@ -16,11 +16,11 @@ parse.cpp
 runtime.cpp
 stream.cpp
 
-script.h
+gaia.h
 gaiaobject.h
 gaiastring.h
 gaiavalue.h
-global.h
+def.h
 ICode.h
 lexer.h
 list.h
