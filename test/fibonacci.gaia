@@ -1,0 +1,19 @@
+function fib(n) {
+  var x = 1;
+  var y = 1;
+  var z = 0;
+  if (n == 1 || n == 2) {
+    return 1;
+  } else {
+    for (var i = 2; i < n; i++) {
+      z = x + y;
+      x = y;
+      y = z;
+    }
+  }
+  return z;
+}
+
+var name = "yuantao";
+var tick = 200;
+print(fib(10));

@@ -4,12 +4,26 @@
 + cstyle syntax
 + cross-platform
 
+## TODO
++ GC
++ Object
++ Recursive
 
 ## Build
 ````bash
-gaia > mkdir  build
-gaia > cd build
-gaia > cmake ..
+$ mkdir  build
+$ cd build
+$ cmake ..
+````
+
+on windows
+````bash
+cmake --build
+````
+
+or osx
+````bash
+make
 ````
 
 ## Binding a new function in c
@@ -25,14 +39,29 @@ gaia.pushLocalFunction("test", test);
 c function return 0 or 1
 
 ##  Call script function from C
+````js
+function add(a, b) {
+    return  a + b;
+}
+````
+
 ````c
-gaia.call('hello');
+script.pushInt(2);
+script.pushInt(10);
+script.call("add");
+printf("%d", script.toInt());
 ````
 
 
 ## Get script value in c
+````js
+var name = "yuan";
+var tick = 100;
+````
 ````c
 script.getGlobal("name");
-printf("%d\n", script.toString());
+printf("%s\n", script.toString());
+script.getGlobal("tick");
+printf("%d\n", script.toInt());
 ````
 `getGlobal`push the variable to the top of the stack, then u can use `toString()` get the string value.
