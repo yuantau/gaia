@@ -50,8 +50,8 @@ class Runtime
     GaiaValue *getOpValuePtr(int index);
 
     void getValueAsString(char *buf, GaiaValue *pVal);
-    int Runtime::getValueAsInt(GaiaValue *pVal);
-    float Runtime::getValueAsNumber(GaiaValue *pVal);
+    int getValueAsInt(GaiaValue *pVal);
+    float getValueAsNumber(GaiaValue *pVal);
 
     void push(GaiaValue val)
     {

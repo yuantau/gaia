@@ -39,7 +39,7 @@ class Parse
     void setLexer(Lexer *pLexer);
 
     //获取编译后的ByteCode
-    Stream *Parse::getStream();
+    Stream * getStream();
 
     //语法解析
     void parse(Runtime *pRunTime);
