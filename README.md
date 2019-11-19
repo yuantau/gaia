@@ -1,29 +1,10 @@
 # Gaia is a simple script engine, a learning work.
 
-## Features
-+ cstyle syntax
-+ cross-platform
-
-## TODO
-+ GC
-+ Object
-+ Recursive
-
 ## Build
 ````bash
 $ mkdir  build
 $ cd build
 $ cmake ..
-````
-
-on windows
-````bash
-cmake --build
-````
-
-or osx
-````bash
-make
 ````
 
 ## Binding a new function in c
